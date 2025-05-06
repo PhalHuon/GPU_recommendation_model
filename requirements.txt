@@ -1,4 +1,6 @@
 scrapy
 scrapy-user-agents
 scrapy-proxies
-pymongo
+sqlalchemy
+pymysql
+pandas
