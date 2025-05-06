@@ -1,78 +1,87 @@
 # GPU Price Tracker
-A web scraping project that collects and analyzes GPU prices from major online retailers.
+A web scraping project that collects and analyzes GPU prices from major online retailers using MySQL for data storage. In the future, the database will be used to implement a recommendation machine learning model that suggests optimal GPUs based on user preferences, budget constraints, and performance benchmarks.
 
 ## Overview
-This project uses Scrapy to crawl popular e-commerce websites (Amazon, eBay, and Walmart) to extract current GPU prices and specifications. The data can be stored in a MongoDB database or exported directly to CSV files for analysis, helping users find the best deals on graphics cards and track price trends over time.
+This project uses Scrapy to crawl popular e-commerce websites (Amazon, eBay, and Walmart) to extract current GPU prices and specifications. The data is stored in a MySQL database for analysis, helping users find the best deals on graphics cards and track price trends over time.
+
+### Features
 
 * Automated scraping of GPU listings from multiple retailers
-* Extraction of key information (price, model, manufacturer, specs)
-* Data cleaning
-* Normalization pipelines
-* Export to both MongoDB and CSV formats
+* Extraction of key information such as price, model, manufacturer, and specifications
+* Data cleaning and normalization pipeline
+* MySQL database for structured data storage
+* Support for tracking specific GPU models via configuration
 
 ### Requirements
+
 * Python 3.8+
 * Scrapy
-* pymongo (MongoDB support)
-* urllib.parse (url encoding)
+* SQLAlchemy
+* PyMySQL
+* MySQL Server
+* pandas
 
 ### Installation
-1. Clone repository:
 
-`git clone [repo-url]`
+1. Clone the repository:
+
+`git clone [repository-url]`
 
 `cd gpu_price_tracker`
 
-2. Create vitual environment:
+2. Create and activate a virtual environment:
 
-`python -m venv venv` (windows)
+`python -m venv venv` 
 
-`source venv/bin/activate` (macOS/Linux)
+`venv\Scripts\activate` (Windows)
+
+`source venv/bin/activate` (Linux/macOS)
 
 3. Install dependencies:
-
+   
 `pip install -r requirements.txt`
 
-4. MongoDB setup (in the future):
+4. Set up MySQL database:
+
+* Install MySQL Server if not already installed
+* Create the database and tables by running:
+  
+`python init_database.py`
+
 
 ## Usage
-### Running the Spiders with MongoDB 
+### Initialize the Database
 
-`python run_spiders.py` (run and store data in MongoDB)
+`python init_database.py`
 
-### Run Spiders with CSV Export
+### Run the Spiders
 
-`python direct_spider_csv.py` (export data to a csv)
+`python run_spiders.py`
 
-### View data
+This will start the crawling process for all configured retailers.
+
+### View the Data
 
 `python view_data.py`
 
-### Modifying Target GPUs
-Edit `gpus.py` file to add or remove GPU models to track:
-
-`GPU_MODELS = [
-    {"brand": "NVIDIA", "model": "RTX 4090"},
-    {"brand": "NVIDIA", "model": "RTX 4080"},
-    # Add more models here
-]`
+This script displays statistics about the collected GPU data and offers the option to export it to CSV.
 
 ## Customization
+### Database Configuration
+Edit the MySQL connection string in `settings.py`:
+
+`MYSQL_CONNECTION_STRING = "mysql+pymysql://user:password@localhost/gpu_tracker"`
+
 ### Adding New Retailers
-1. Create new spider in the `spiders` directory
-2. Implement required parsing logic for new website
-3. Add the spider to the `run_spiders.py`
 
-### Configuring Crawl Settings
-Edit `settings.py` file to adjust:
+1. Create a new spider in the spiders directory
+2. Implement the required parsing logic for the new website
+3. Add the spider to the run_spiders.py script
 
-* crawl speed (DOWNLOAD_DELAY)
-* concurrent requests
-* user agents
-* MongoDB connection settings
+### Modifying Target GPUs
+Edit the `gpus.py` file to add or remove GPU models to track.
 
 ## License
-
 MIT License
 
 Copyright (c) 2025 [Your Name]
@@ -95,12 +104,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-## Acknowledgements
-* [Scrapy](https://scrapy.org/) - The powerful web crawling framework that powers this project
-* [MongoDB](https://www.mongodb.com/) - The database used for storing and managing GPU price data
-* [Python Community](https://www.python.org/community/) - For the incredible open-source tools that make this project possible
-* All GPU prices and data belong to their respective retailers (Amazon, eBay, Walmart)
-
+## Acknowledgments
+* Scrapy team for the powerful web crawling framework
+* SQLAlchemy for the database ORM
+* The Python community for the excellent data analysis tools
 
 
 
