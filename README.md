@@ -81,28 +81,6 @@ Edit the MySQL connection string in `settings.py`:
 ### Modifying Target GPUs
 Edit the `gpus.py` file to add or remove GPU models to track.
 
-### Project Structure
-gpu_price_tracker/
-│
-├── gpu_price_tracker/       # Main package
-│   ├── __init__.py
-│   ├── items.py             # Item definitions
-│   ├── pipelines.py         # Data processing pipelines
-│   ├── settings.py          # Scrapy settings
-│   ├── database.py          # MySQL database connection and operations
-│   ├── gpus.py              # GPU models configuration
-│   └── spiders/             # Crawler implementations
-│       ├── __init__.py
-│       ├── amazon_spider.py
-│       ├── ebay_spider.py
-│       └── walmart_spider.py
-│
-├── run_spiders.py           # Script to run all spiders
-├── view_data.py             # Script to view MySQL data
-├── init_database.py         # Database initialization script
-├── requirements.txt         # Project dependencies
-└── LICENSE                  # MIT License
-
 ## License
 MIT License
 
