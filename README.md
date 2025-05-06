@@ -49,7 +49,7 @@ This project uses Scrapy to crawl popular e-commerce websites (Amazon, eBay, and
 `python init_database.py`
 
 
-##Usage
+## Usage
 ### Initialize the Database
 
 `python init_database.py`
