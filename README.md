@@ -1,5 +1,5 @@
 # GPU Price Tracker
-A web scraping project that collects and analyzes GPU prices from major online retailers using MySQL for data storage.
+A web scraping project that collects and analyzes GPU prices from major online retailers using MySQL for data storage. In the future, the database will be used to implement a recommendation machine learning model that suggests optimal GPUs based on user preferences, budget constraints, and performance benchmarks.
 
 ## Overview
 This project uses Scrapy to crawl popular e-commerce websites (Amazon, eBay, and Walmart) to extract current GPU prices and specifications. The data is stored in a MySQL database for analysis, helping users find the best deals on graphics cards and track price trends over time.
