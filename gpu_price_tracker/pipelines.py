@@ -1,35 +1,8 @@
-import pymongo
+#when import modules, also look at the parent directory of this file
+import sys, os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from gpu_price_tracker.database import Database
 from datetime import datetime
-
-class MongoPipeline:
-    collection_name = 'gpu_prices'
-
-    def __init__(self, mongo_uri, mongo_db):
-        self.mongo_uri = mongo_uri
-        self.mongo_db = mongo_db
-
-    @classmethod
-    def from_crawler(cls, crawler):
-        return cls(
-            mongo_uri=crawler.settings.get('MONGO_URI', 'mongodb://localhost:27017/'),
-            mongo_db=crawler.settings.get('MONGO_DATABASE', 'gpu_tracker')
-        )
-
-    def open_spider(self, spider):
-        self.client = pymongo.MongoClient(self.mongo_uri)
-        self.db = self.client[self.mongo_db]
-
-    def close_spider(self, spider):
-        self.client.close()
-
-    def process_item(self, item, spider):
-        # Add timestamp if not present
-        if 'timestamp' not in item:
-            item['timestamp'] = datetime.now().isoformat()
-            
-        # Insert the item into the MongoDB collection
-        self.db[self.collection_name].insert_one(dict(item))
-        return item
 
 class CleanDataPipeline:
     def process_item(self, item, spider):
@@ -51,4 +24,30 @@ class CleanDataPipeline:
         if 'name' in item and item['name']:
             item['name'] = item['name'].strip()
         
+        # Add timestamp if not present
+        if 'timestamp' not in item:
+            item['timestamp'] = datetime.now().isoformat()
+        
+        return item
+
+class MySQLPipeline:
+    def __init__(self, connection_string):
+        self.connection_string = connection_string
+        self.db = None
+    
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(
+            connection_string=crawler.settings.get('MYSQL_CONNECTION_STRING')
+        )
+    
+    def open_spider(self, spider):
+        self.db = Database(self.connection_string)
+        spider.logger.info("Connected to MySQL database")
+    
+    def close_spider(self, spider):
+        spider.logger.info("Closed MySQL database connection")
+    
+    def process_item(self, item, spider):
+        self.db.store_gpu(item)
         return item

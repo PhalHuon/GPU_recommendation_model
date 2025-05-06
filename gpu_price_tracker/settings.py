@@ -1,3 +1,5 @@
+# gpu_price_tracker/settings.py
+
 BOT_NAME = 'gpu_price_tracker'
 
 SPIDER_MODULES = ['gpu_price_tracker.spiders']
@@ -17,7 +19,7 @@ RANDOMIZE_DOWNLOAD_DELAY = True
 # Disable cookies
 COOKIES_ENABLED = False
 
-# Use a user agent rotation middleware
+# Use a random user agent
 DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
     'scrapy_user_agents.middlewares.RandomUserAgentMiddleware': 400,
@@ -26,17 +28,11 @@ DOWNLOADER_MIDDLEWARES = {
 # Enable item pipelines
 ITEM_PIPELINES = {
     'gpu_price_tracker.pipelines.CleanDataPipeline': 300,
-    'gpu_price_tracker.pipelines.MongoPipeline': 400,
+    'gpu_price_tracker.pipelines.MySQLPipeline': 400,
 }
 
-# MongoDB settings
-MONGO_URI = 'mongodb://localhost:27017/'
-MONGO_DATABASE = 'gpu_tracker'
-
-# Handling errors gracefully
-RETRY_ENABLED = True
-RETRY_TIMES = 3
-RETRY_HTTP_CODES = [500, 502, 503, 504, 408, 429]
+# MySQL database settings
+MYSQL_CONNECTION_STRING = "mysql+pymysql://root:password@localhost/gpu_tracker"
 
 # Logging level
 LOG_LEVEL = 'INFO'
