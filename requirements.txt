@@ -3,4 +3,4 @@ scrapy-user-agents
 scrapy-proxies
 sqlalchemy
 pymysql
-pandas
+psycopg2-binary
